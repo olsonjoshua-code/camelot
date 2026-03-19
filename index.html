@@ -311,8 +311,9 @@ body::after { content: ''; position: fixed; inset: 0;
   <div class="section-head" style="font-size:14px">Camelot  -  Chapter Select</div>
   <div id="unit-list"></div>
   <div id="journey-banner" style="display:none;background:rgba(232,160,32,0.06);border:1px solid var(--amber2);padding:14px;text-align:center;margin-bottom:12px">
-    <div style="font-family:var(--bebas);font-size:18px;color:var(--amber);letter-spacing:2px">UNIT COMPLETE</div>
-    <div style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic;margin-top:4px">The torch has been passed.</div>
+    <div style="font-family:var(--bebas);font-size:18px;color:var(--amber);letter-spacing:2px">CAMELOT COMPLETE</div>
+    <div style="font-family:var(--crimson);font-size:14px;color:var(--text2);font-style:italic;margin-top:4px;margin-bottom:10px">The torch has been passed.</div>
+    <button class="btn green" onclick="playAgain()"><span>↺ Begin New Journey</span></button>
   </div>
   <div class="section-head" style="font-size:14px;margin-top:6px">Badges</div>
   <div class="badges-row" id="badges-row"></div>
@@ -381,6 +382,31 @@ body::after { content: ''; position: fixed; inset: 0;
     </div>
     <div style="font-family:var(--crimson);font-size:16px;color:var(--text2);line-height:1.7;margin-bottom:24px;font-style:italic;border-left:3px solid var(--amber);padding:12px 16px;text-align:left;background:var(--bg2)" id="ch-complete-quote"></div>
     <button class="btn full green" onclick="finishChapter()"><span>Continue to Hub →</span></button>
+  </div>
+</div>
+
+<!-- UNIT COMPLETION OVERLAY -->
+<div id="completion-overlay" style="display:none;position:fixed;inset:0;background:rgba(13,10,8,0.97);z-index:600;overflow-y:auto;padding:20px 16px 80px">
+  <div style="max-width:480px;margin:0 auto;text-align:center;padding-top:20px">
+    <div style="font-family:var(--bebas);font-size:11px;color:var(--amber2);letter-spacing:4px;margin-bottom:16px">CAMELOT COMPLETE</div>
+    <div style="font-size:64px;margin-bottom:16px">🌙</div>
+    <div style="font-family:var(--playfair);font-size:26px;color:var(--cream);font-style:italic;margin-bottom:6px" id="completion-name"></div>
+    <div style="font-family:var(--bebas);font-size:14px;color:var(--teal);letter-spacing:2px;margin-bottom:20px" id="completion-rank"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px" id="completion-stats"></div>
+    <div style="background:var(--bg2);border:1px solid var(--amber2);padding:16px;margin-bottom:20px">
+      <div style="font-family:var(--bebas);font-size:12px;color:var(--text3);letter-spacing:2px;margin-bottom:12px">BADGES EARNED</div>
+      <div id="completion-badges" style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center"></div>
+    </div>
+    <div style="font-family:var(--crimson);font-size:17px;color:var(--text);line-height:1.7;margin-bottom:24px;font-style:italic;border-left:3px solid var(--amber);padding:12px 16px;text-align:left;background:var(--bg2)">
+      "Ask not what your country can do for you - ask what you can do for your country."<br>
+      <span style="font-size:13px;color:var(--amber);font-style:normal">— President John F. Kennedy</span>
+    </div>
+    <div style="font-family:var(--crimson);font-size:15px;color:var(--text2);margin-bottom:24px;line-height:1.6" id="completion-message"></div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <button class="btn full green" onclick="printCertificate()"><span>🖨️ Print Certificate</span></button>
+      <button class="btn full" onclick="playAgain()"><span>↺ Begin New Journey</span></button>
+      <button class="btn full" style="border-color:var(--border2);color:var(--text2)" onclick="document.getElementById('completion-overlay').style.display='none';renderHub();showScreen('hub-screen')"><span>Return to Hub</span></button>
+    </div>
   </div>
 </div>
 
@@ -524,8 +550,8 @@ const SUPA_URL='https://iluvuartxsenbgylogit.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsdXZ1YXJ0eHNlbmJneWxvZ2l0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjA2OTIsImV4cCI6MjA4OTQzNjY5Mn0.stAmdi5xy7ofDAB4AiRg78Eoky-7FXZEa-Ui1dgwHd0';
 const SUPA_HEADERS={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 const TEACHERS={
-  'olson':{name:'Mr. Olson',  periods:['3','5','6'],             teacherCode:'OLSON'},
-  'smith':{name:'Mrs. Smith', periods:['1','2','3','4','6','7'], teacherCode:'SMITH'},
+  'olson':{name:'Mr. Olson',  periods:['3','5','6'],             teacherCode:'OLSON219'},
+  'smith':{name:'Mrs. Smith', periods:['1','2','3','4','6','7'], teacherCode:'SMITH225'},
 };
 
 let G=null,currentChapterIdx=0,currentBeatIdx=0,chapterScore=0,chapterCorrect=0,chapterTotal=0,answeredCurrent=false,chapterLog=[];
@@ -1761,7 +1787,7 @@ function updateHUD(){
 // HUB
 // ═══════════════════════════════════════
 function renderHub(){
-  if(!G)return;updateHUD();
+  if(!G)return;updateHUD();checkUnitComplete();
   const teacherBtn=document.getElementById('teacher-btn-wrap');
   if(teacherBtn)teacherBtn.style.display=G.isTeacher?'block':'none';
   const av=AVATARS.find(a=>a.id===G.avatarId);
@@ -1996,7 +2022,81 @@ function checkAchievements(){
 }
 
 // ═══════════════════════════════════════
-// PROFILE
+// UNIT COMPLETE
+// ═══════════════════════════════════════
+function checkUnitComplete(){
+  if(G.completedChapters.length>=CHAPTERS.length&&!G._completionShown){
+    G._completionShown=true;save();
+    setTimeout(showCompletionScreen,800);
+  }
+}
+function showCompletionScreen(){
+  const acc=G.totalAnswers>0?Math.round(G.correctAnswers/G.totalAnswers*100):0;
+  const rank=getRank();
+  document.getElementById('completion-name').textContent=G.name;
+  document.getElementById('completion-rank').textContent=rank.name+' · Level '+G.level;
+  document.getElementById('completion-stats').innerHTML=[
+    {icon:'🎯',label:'Overall Accuracy',val:acc+'%'},
+    {icon:'⭐',label:'Total Score',val:G.score.toLocaleString()},
+    {icon:'🃏',label:'Cards Collected',val:G.unlockedCards.length+'/'+CARDS.length},
+  ].map(s=>`<div style="background:var(--bg2);border:1px solid var(--border2);padding:14px;text-align:center">
+    <div style="font-size:28px;margin-bottom:4px">${s.icon}</div>
+    <div style="font-family:var(--bebas);font-size:22px;color:var(--amber)">${s.val}</div>
+    <div style="font-family:var(--dm);font-size:8px;color:var(--text3);margin-top:2px">${s.label}</div>
+  </div>`).join('');
+  document.getElementById('completion-badges').innerHTML=G.earnedBadges.map(bid=>{
+    const b=BADGES.find(x=>x.id===bid);
+    return b?`<div title="${b.name}" style="font-size:24px">${b.icon}</div>`:'';
+  }).join('');
+  const msg=acc>=90?'Exceptional. You demonstrated mastery of the Kennedy era. History would be proud.':
+    acc>=75?'Outstanding! Your decisions showed strong understanding of the New Frontier and its legacy.':
+    acc>=60?'Good work. You understood the key turning points. Review the chapters that challenged you.':
+    'You have completed the journey. The Kennedy era was complex - every replay will teach you more.';
+  document.getElementById('completion-message').textContent=msg;
+  document.getElementById('completion-overlay').style.display='block';
+  window.scrollTo(0,0);
+}
+function printCertificate(){
+  const acc=G.totalAnswers>0?Math.round(G.correctAnswers/G.totalAnswers*100):0;
+  const rank=getRank();
+  const certHTML=`
+  <div style="font-family:Georgia,serif;background:#fff;color:#1a1008;padding:48px;max-width:680px;margin:0 auto;box-sizing:border-box">
+    <div style="border:4px double #8b6020;padding:40px;text-align:center">
+      <div style="font-size:11px;letter-spacing:4px;color:#8b6020;text-transform:uppercase;margin-bottom:8px">Certificate of Completion</div>
+      <div style="font-size:30px;font-weight:bold;margin:10px 0;color:#1a0808">Camelot</div>
+      <div style="font-size:14px;color:#5a3810;margin:6px 0">The Kennedy Era - Lesson 6B - US History</div>
+      <div style="margin:20px 0;font-size:14px">This certifies that</div>
+      <div style="font-size:26px;font-style:italic;color:#c07818;margin:14px 0;border-bottom:2px solid #c07818;padding-bottom:8px;display:inline-block">${G.name}</div>
+      <div style="margin:12px 0;font-size:13px;line-height:1.6">has completed all 8 chapters of the Kennedy Era unit<br>achieving the rank of <strong>${rank.name}</strong></div>
+      <div style="display:flex;justify-content:center;gap:36px;margin:20px 0;flex-wrap:wrap">
+        ${[{v:acc+'%',l:'Accuracy'},{v:G.score.toLocaleString(),l:'Total Score'},{v:G.earnedBadges.length,l:'Badges'},{v:G.unlockedCards.length+'/'+CARDS.length,l:'Cards'}]
+          .map(s=>`<div style="text-align:center"><div style="font-size:26px;font-weight:bold;color:#c07818">${s.v}</div><div style="font-size:9px;letter-spacing:2px;color:#8b6020;text-transform:uppercase;margin-top:2px">${s.l}</div></div>`).join('')}
+      </div>
+      <div style="font-style:italic;font-size:13px;color:#584840;margin:18px 0;line-height:1.6;border-left:3px solid #c07818;padding:8px 16px;text-align:left">
+        "Ask not what your country can do for you - ask what you can do for your country."<br>
+        <span style="font-style:normal;font-size:11px">- President John F. Kennedy</span>
+      </div>
+      <div style="font-size:10px;color:#8b6020;letter-spacing:2px;margin-top:20px">Created by Joshua Olson - Florida EOC Aligned</div>
+      <div style="font-size:9px;color:#a09080;letter-spacing:1px;margin-top:6px">SS.912.A.7.4 - SS.912.A.7.11 - SS.912.A.7.13 - SS.912.A.6.15</div>
+    </div>
+  </div>`;
+  const area=document.getElementById('print-area');
+  area.style.display='block';
+  area.innerHTML=certHTML;
+  setTimeout(()=>{window.print();setTimeout(()=>{area.style.display='none';},500);},100);
+}
+function playAgain(){
+  if(!confirm('Begin a new journey from Chapter 1? Your score, gold, cards, badges and items are kept - only chapter progress resets.'))return;
+  G.completedChapters=[];
+  G.beatenBeats=[];
+  G._completionShown=false;
+  save();
+  document.getElementById('completion-overlay').style.display='none';
+  renderHub();showScreen('hub-screen');
+  notify('New journey started - good luck! 🌙','green');
+}
+
+
 // ═══════════════════════════════════════
 function openProfile(){
   if(!G)return;
