@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Camelot — The Kennedy Era</title>
+<title>Camelot  -  The Kennedy Era</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -251,8 +251,8 @@ body::after { content: ''; position: fixed; inset: 0;
 <div id="title-screen" class="screen active">
   <div class="title-scene" id="title-scene-art"></div>
   <div class="game-logo">Camelot</div>
-  <div class="game-subtitle">The Kennedy Era — An Interactive History</div>
-  <div class="game-unit-badge">Unit 13 — Governing in the 1960s</div>
+  <div class="game-subtitle">The Kennedy Era  -  An Interactive History</div>
+  <div class="game-unit-badge">Unit 13  -  Governing in the 1960s</div>
   <div style="margin-bottom:1.2rem;font-family:var(--dm);font-size:10px;color:var(--text3);letter-spacing:1px">CREATED BY JOSHUA OLSON</div>
   <div style="display:flex;flex-direction:column;align-items:center;gap:10px;max-width:300px;margin:0 auto">
     <button class="btn full" onclick="startNewGame()"><span>Enter the New Frontier</span></button>
@@ -308,7 +308,7 @@ body::after { content: ''; position: fixed; inset: 0;
   <div id="teacher-btn-wrap" style="display:none;margin-bottom:12px">
     <button class="btn full blue" onclick="loadTeacherData();document.getElementById('teacher-dashboard').classList.add('show')"><span>📊 Teacher Dashboard</span></button>
   </div>
-  <div class="section-head" style="font-size:14px">Camelot — Chapter Select</div>
+  <div class="section-head" style="font-size:14px">Camelot  -  Chapter Select</div>
   <div id="unit-list"></div>
   <div id="journey-banner" style="display:none;background:rgba(232,160,32,0.06);border:1px solid var(--amber2);padding:14px;text-align:center;margin-bottom:12px">
     <div style="font-family:var(--bebas);font-size:18px;color:var(--amber);letter-spacing:2px">UNIT COMPLETE</div>
@@ -531,7 +531,7 @@ const TEACHERS={
 let G=null,currentChapterIdx=0,currentBeatIdx=0,chapterScore=0,chapterCorrect=0,chapterTotal=0,answeredCurrent=false,chapterLog=[];
 
 // ─────────────────────────────────────────────────────────
-// AVATARS — reusing the same system, Cold War era featured
+// AVATARS  -  reusing the same system, Cold War era featured
 // ─────────────────────────────────────────────────────────
 const AVATAR_ERAS=[
   {id:'cold_war',label:'☢️ Cold War',color:'#1a3a1a'},
@@ -636,12 +636,12 @@ const BADGES=[
 
 // ── CARDS ──
 const CARDS=[
-  {id:'jfk',figure:'🌙',name:'President Kennedy',desc:'The 35th President brought youth and vision to the White House, inspiring a generation with his call to public service.',quote:'"Ask not what your country can do for you — ask what you can do for your country."'},
+  {id:'jfk',figure:'🌙',name:'President Kennedy',desc:'The 35th President brought youth and vision to the White House, inspiring a generation with his call to public service.',quote:'"Ask not what your country can do for you  -  ask what you can do for your country."'},
   {id:'jackie_kennedy',figure:'💐',name:'Jacqueline Kennedy',desc:'First Lady and cultural icon whose grace under unimaginable tragedy defined an era.',quote:'"I want to live my life, not record it."'},
-  {id:'nixon_1960',figure:'🗺️',name:'Richard Nixon',desc:'Vice President who lost the 1960 election in part due to his poor appearance on television — and spent a decade plotting his return.',quote:'"I am not a crook." (later, 1973)'},
+  {id:'nixon_1960',figure:'🗺️',name:'Richard Nixon',desc:'Vice President who lost the 1960 election in part due to his poor appearance on television  -  and spent a decade plotting his return.',quote:'"I am not a crook." (later, 1973)'},
   {id:'robert_kennedy',figure:'⚖️',name:'Robert F. Kennedy',desc:'JFK\'s brother and Attorney General, who would become the nation\'s moral conscience on civil rights.',quote:'"The purpose of life is to contribute in some way to making things better."'},
-  {id:'kruschev',figure:'☢️',name:'Nikita Khrushchev',desc:'Soviet Premier whose gamble with Cuban missiles brought the world to the brink — then stepped back.',quote:'"If you start throwing hedgehogs under me, I shall throw a couple of porcupines under you."'},
-  {id:'cape_canaveral',figure:'🚀',name:'Cape Canaveral',desc:'Florida\'s contribution to the Space Race — the launch site of every American astronaut and the fulcrum of Kennedy\'s Moon promise.',quote:'"We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard."'},
+  {id:'kruschev',figure:'☢️',name:'Nikita Khrushchev',desc:'Soviet Premier whose gamble with Cuban missiles brought the world to the brink  -  then stepped back.',quote:'"If you start throwing hedgehogs under me, I shall throw a couple of porcupines under you."'},
+  {id:'cape_canaveral',figure:'🚀',name:'Cape Canaveral',desc:'Florida\'s contribution to the Space Race  -  the launch site of every American astronaut and the fulcrum of Kennedy\'s Moon promise.',quote:'"We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard."'},
   {id:'lbj',figure:'🏛️',name:'President Johnson',desc:'The Texas dealmaker who turned tragedy into legislative triumph, passing the Civil Rights Act and Great Society programs.',quote:'"Yesterday is not ours to recover, but tomorrow is ours to win or lose."'},
   {id:'peace_corps',figure:'🌍',name:'The Peace Corps',desc:'Kennedy\'s signature initiative that sent 10,000 young Americans abroad in its first year, embodying the New Frontier spirit.',quote:'"One person can make a difference, and everyone should try."'},
 ];
@@ -686,7 +686,7 @@ const SHOP_ITEMS=[
 // ══════════════════════════════════════════════════════════════
 const SCENES={
 
-// TV DEBATE — Nixon v Kennedy, 1960
+// TV DEBATE  -  Nixon v Kennedy, 1960
 tv_debate:`<svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" class="scene-svg">
   <defs>
     <radialGradient id="tvGlow" cx="50%" cy="50%" r="45%">
@@ -860,7 +860,7 @@ election_night:`<svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" cl
   <rect x="270" y="120" width="160" height="12" fill="#0a0808"/>
   <rect x="270" y="120" width="75" height="12" fill="#5a1a1a" opacity="0.8"/>
   <!-- MARGIN NOTE -->
-  <text x="280" y="175" font-family="Georgia,serif" font-size="9" fill="#e8a020" text-anchor="middle" opacity="0.8">Closest popular vote since 1884 — 0.17% margin</text>
+  <text x="280" y="175" font-family="Georgia,serif" font-size="9" fill="#e8a020" text-anchor="middle" opacity="0.8">Closest popular vote since 1884  -  0.17% margin</text>
   <!-- celebration confetti suggestion -->
   ${Array.from({length:20},(_, i)=>`<rect x="${50+i*24}" y="${155+((i*37)%40)}" width="4" height="4" fill="#${['1a2a6b','8b1a1a','e8a020','1a6b2a'][i%4]}" opacity="${0.3+i%3*0.15}" transform="rotate(${i*17} ${62+i*24} ${157+i%40})"  />`).join('')}
   <text x="280" y="208" font-family="Georgia,serif" font-size="8" fill="#a09080" text-anchor="middle" opacity="0.6">November 8–9, 1960 · Kennedy wins presidency by razor-thin margin</text>
@@ -916,7 +916,7 @@ inauguration:`<svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" clas
 };
 
 // ══════════════════════════════════════════════════════════════
-// CHAPTERS — Chapter 1: The 1960 Election (3 beats)
+// CHAPTERS  -  Chapter 1: The 1960 Election (3 beats)
 // ══════════════════════════════════════════════════════════════
 const CHAPTERS=[
 {
@@ -925,61 +925,61 @@ const CHAPTERS=[
   title:'The 1960 Election',
   icon:'📺',
   period:'Presidential Campaign · September–November 1960',
-  context:"The 1960 presidential election pitted 43-year-old Senator John F. Kennedy of Massachusetts against sitting Vice President Richard Nixon. Kennedy was Catholic — a potential liability in a Protestant nation that had never elected a Catholic president. Nixon had experience; Kennedy had charisma. Then, on September 26, 1960, something unprecedented happened: the first televised presidential debate. 73 million Americans tuned in. Those who watched on television thought Kennedy won. Those who listened on radio thought Nixon won. The medium had become the message — and American politics would never be the same.",
+  context:"The 1960 presidential election pitted 43-year-old Senator John F. Kennedy of Massachusetts against sitting Vice President Richard Nixon. Kennedy was Catholic  -  a potential liability in a Protestant nation that had never elected a Catholic president. Nixon had experience; Kennedy had charisma. Then, on September 26, 1960, something unprecedented happened: the first televised presidential debate. 73 million Americans tuned in. Those who watched on television thought Kennedy won. Those who listened on radio thought Nixon won. The medium had become the message  -  and American politics would never be the same.",
   standards:['SS.912.A.7.4','SS.912.A.7.11'],
   eocFocus:"Kennedy domestic and foreign policies; impact on the 1960s; SS.912.A.7.4",
   keyVocab:[
-    {term:'New Frontier',def:'Kennedy\'s domestic and foreign policy agenda — economic growth, civil rights, and space exploration'},
+    {term:'New Frontier',def:'Kennedy\'s domestic and foreign policy agenda  -  economic growth, civil rights, and space exploration'},
     {term:'Cold War',def:'The ideological and geopolitical rivalry between the U.S. and Soviet Union (1947–1991)'},
-    {term:'Television Debate',def:'The first televised presidential debate (1960) showed how media could change politics — image now mattered as much as substance'},
-    {term:'Electoral College',def:'The system by which presidents are actually elected — states award electors based on popular vote results'},
+    {term:'Television Debate',def:'The first televised presidential debate (1960) showed how media could change politics  -  image now mattered as much as substance'},
+    {term:'Electoral College',def:'The system by which presidents are actually elected  -  states award electors based on popular vote results'},
   ],
   cardEarned:'jfk',
   badge:'debate_watcher',
-  timelineEntry:{year:'1960',figure:'jfk',sprite:'📺',title:'The 1960 Election',desc:"Kennedy's victory over Nixon — by just 0.17% of the popular vote — marked a generational shift. The first Catholic president, the youngest elected president, and the first to be defined by television, JFK promised to 'get America moving again.'"},
+  timelineEntry:{year:'1960',figure:'jfk',sprite:'📺',title:'The 1960 Election',desc:"Kennedy's victory over Nixon  -  by just 0.17% of the popular vote  -  marked a generational shift. The first Catholic president, the youngest elected president, and the first to be defined by television, JFK promised to 'get America moving again.'"},
   beats:[
-    // BEAT 1 — The TV Debate
+    // BEAT 1  -  The TV Debate
     {
       scene:'tv_debate',
-      location:'CBS Studio — Chicago, Illinois',
+      location:'CBS Studio  -  Chicago, Illinois',
       date:'September 26, 1960',
-      narrative:"You're watching history happen in your living room. 73 million Americans — more than half the country — are watching the first televised presidential debate. On screen, Vice President Nixon looks pale and sweaty; he refused makeup and his suit blends into the grey backdrop. Senator Kennedy looks tanned, rested, and confident in a dark suit. Nixon knows his policy. Kennedy knows the camera. The next morning, polls show a dramatic shift. People who watched on television think Kennedy won. People who heard it on the radio think Nixon won.",
+      narrative:"You're watching history happen in your living room. 73 million Americans  -  more than half the country  -  are watching the first televised presidential debate. On screen, Vice President Nixon looks pale and sweaty; he refused makeup and his suit blends into the grey backdrop. Senator Kennedy looks tanned, rested, and confident in a dark suit. Nixon knows his policy. Kennedy knows the camera. The next morning, polls show a dramatic shift. People who watched on television think Kennedy won. People who heard it on the radio think Nixon won.",
       charVoice:"The medium is the message. Kennedy understood something new: in the television age, how you look matters as much as what you say. What does this debate reveal about the nature of political communication?",
       decision:"What was the most significant thing the 1960 TV debate revealed about American politics?",
       choices:[
         {
           text:"That Kennedy's policy positions were stronger than Nixon's",
           correct:false,
-          feedback:"Policy substance alone doesn't explain the debate's impact — those who heard it on radio thought Nixon won on substance. The debate revealed that in the television era, visual presentation, demeanor, and appearance could outweigh policy knowledge. Nixon was better prepared on the issues; Kennedy was better prepared for the camera.",
+          feedback:"Policy substance alone doesn't explain the debate's impact  -  those who heard it on radio thought Nixon won on substance. The debate revealed that in the television era, visual presentation, demeanor, and appearance could outweigh policy knowledge. Nixon was better prepared on the issues; Kennedy was better prepared for the camera.",
           std:'SS.912.A.7.4'
         },
         {
-          text:"That television had transformed how voters evaluate candidates — image now rivaled substance",
+          text:"That television had transformed how voters evaluate candidates  -  image now rivaled substance",
           correct:true,
-          feedback:"Exactly right. The 1960 debate is a watershed moment in American political history. The fact that TV watchers and radio listeners reached opposite conclusions about who 'won' proved that media format shapes political perception. Since 1960, presidential campaigns have been built around television, then 24-hour news, then social media — each shift transforming how candidates are evaluated.",
+          feedback:"Exactly right. The 1960 debate is a watershed moment in American political history. The fact that TV watchers and radio listeners reached opposite conclusions about who 'won' proved that media format shapes political perception. Since 1960, presidential campaigns have been built around television, then 24-hour news, then social media  -  each shift transforming how candidates are evaluated.",
           std:'SS.912.A.7.4'
         },
         {
           text:"That Nixon was fundamentally a weaker candidate in every respect",
           correct:false,
-          feedback:"Nixon was actually a highly experienced and capable candidate — a two-term Vice President who had famously stood up to Khrushchev in the 'Kitchen Debate.' His weakness in the televised debate was largely a matter of presentation (refusing makeup, poor suit color, visible sweating) rather than substance. The lesson was not that Nixon was weak — it was that TV had created new rules.",
+          feedback:"Nixon was actually a highly experienced and capable candidate  -  a two-term Vice President who had famously stood up to Khrushchev in the 'Kitchen Debate.' His weakness in the televised debate was largely a matter of presentation (refusing makeup, poor suit color, visible sweating) rather than substance. The lesson was not that Nixon was weak  -  it was that TV had created new rules.",
           std:'SS.912.A.7.4'
         },
         {
           text:"That the American public cared more about a candidate's religion than their appearance",
           correct:false,
-          feedback:"Religion was a concern about Kennedy (Catholic), not Nixon — and Kennedy addressed this directly in a famous speech to Protestant ministers in September 1960. The debate shifted the conversation away from religion entirely. Its lasting lesson was about the power of television, not religion, to shape voter perception.",
+          feedback:"Religion was a concern about Kennedy (Catholic), not Nixon  -  and Kennedy addressed this directly in a famous speech to Protestant ministers in September 1960. The debate shifted the conversation away from religion entirely. Its lasting lesson was about the power of television, not religion, to shape voter perception.",
           std:'SS.912.A.7.4'
         },
       ]
     },
-    // BEAT 2 — The Catholic Question
+    // BEAT 2  -  The Catholic Question
     {
       scene:'convention_1960',
-      location:'Greater Houston Ministerial Association — Houston, Texas',
+      location:'Greater Houston Ministerial Association  -  Houston, Texas',
       date:'September 12, 1960',
       narrative:"Two weeks before the debate, Kennedy faces a crisis that could end his campaign before it begins. A group of prominent Protestant ministers has released a statement saying that a Catholic president would inevitably be controlled by the Pope in Rome. Kennedy is the first Catholic ever nominated by a major party for president. He has a choice: avoid the issue and hope it goes away, or confront it head-on in hostile territory. He chooses Houston. 'I am not the Catholic candidate for President,' he tells the ministers. 'I am the Democratic Party's candidate for President, who happens also to be a Catholic.'",
-      charVoice:"Kennedy's Houston speech did something radical — he argued for the complete separation of church and state, more forcefully than any candidate ever had. He was telling Protestant America: my faith is private; my oath is public.",
+      charVoice:"Kennedy's Houston speech did something radical  -  he argued for the complete separation of church and state, more forcefully than any candidate ever had. He was telling Protestant America: my faith is private; my oath is public.",
       decision:"Why was Kennedy's strategy of directly addressing his Catholicism in Houston the right move, rather than avoiding the issue?",
       choices:[
         {
@@ -991,42 +991,42 @@ const CHAPTERS=[
         {
           text:"Because American voters would never vote for a Catholic, so he needed to convert Protestants",
           correct:false,
-          feedback:"Kennedy wasn't trying to convert anyone's religious views — he was trying to separate the question of his personal faith from his public duties. His argument was that voters should judge him on his policy positions and character, not his religion. This was actually more persuasive than any direct appeal to religious tolerance would have been.",
+          feedback:"Kennedy wasn't trying to convert anyone's religious views  -  he was trying to separate the question of his personal faith from his public duties. His argument was that voters should judge him on his policy positions and character, not his religion. This was actually more persuasive than any direct appeal to religious tolerance would have been.",
           std:'SS.912.A.7.4'
         },
         {
           text:"Because ignoring the issue would have been seen as evasiveness, making it a bigger story",
           correct:false,
-          feedback:"Evasiveness was certainly a risk, but the deeper reason Houston worked was that it allowed Kennedy to define the terms of the debate proactively. He didn't just neutralize a potential attack — he turned it into an affirmative statement of democratic principle: that in America, no religious test should ever be applied to public office. That was a stronger position than merely 'not avoiding' the question.",
+          feedback:"Evasiveness was certainly a risk, but the deeper reason Houston worked was that it allowed Kennedy to define the terms of the debate proactively. He didn't just neutralize a potential attack  -  he turned it into an affirmative statement of democratic principle: that in America, no religious test should ever be applied to public office. That was a stronger position than merely 'not avoiding' the question.",
           std:'SS.912.A.7.4'
         },
         {
           text:"Because Protestant ministers were the most important voting bloc in the South",
           correct:false,
-          feedback:"Protestant ministers were influential, but Kennedy's goal wasn't to win the Southern Protestant vote — he ultimately lost much of the South due to both religion and civil rights. His Houston speech was aimed at the broader national audience watching on television. The goal was to neutralize a narrative that was being used to disqualify him nationally.",
+          feedback:"Protestant ministers were influential, but Kennedy's goal wasn't to win the Southern Protestant vote  -  he ultimately lost much of the South due to both religion and civil rights. His Houston speech was aimed at the broader national audience watching on television. The goal was to neutralize a narrative that was being used to disqualify him nationally.",
           std:'SS.912.A.7.4'
         },
       ]
     },
-    // BEAT 3 — Election Night 1960
+    // BEAT 3  -  Election Night 1960
     {
       scene:'election_night',
-      location:'Hyannis Port Armory, Massachusetts — and across America',
+      location:'Hyannis Port Armory, Massachusetts  -  and across America',
       date:'November 8–9, 1960',
-      narrative:"Election night 1960 is the longest in decades. Kennedy goes to bed not knowing if he's won. The margin is razor thin. By morning, Kennedy has 303 electoral votes to Nixon's 219. But the popular vote is staggeringly close: 34,221,349 for Kennedy, 34,108,157 for Nixon — a difference of 112,827 votes, less than 0.2% of 69 million cast. Texas and Illinois were so close that Nixon's team considers challenging the results. Nixon concedes without demanding a recount, saying it would take too long and damage the country. Kennedy, at 43, is the youngest man ever elected president, and the first Catholic. The torch, he will say two months later at his inauguration, has been passed to a new generation.",
-      charVoice:"Kennedy's margin was microscopic — less than one vote per precinct nationwide. Had 5,000 votes in Illinois and 28,000 in Texas switched, Nixon would have been president. History sometimes pivots on the thinnest of margins.",
+      narrative:"Election night 1960 is the longest in decades. Kennedy goes to bed not knowing if he's won. The margin is razor thin. By morning, Kennedy has 303 electoral votes to Nixon's 219. But the popular vote is staggeringly close: 34,221,349 for Kennedy, 34,108,157 for Nixon  -  a difference of 112,827 votes, less than 0.2% of 69 million cast. Texas and Illinois were so close that Nixon's team considers challenging the results. Nixon concedes without demanding a recount, saying it would take too long and damage the country. Kennedy, at 43, is the youngest man ever elected president, and the first Catholic. The torch, he will say two months later at his inauguration, has been passed to a new generation.",
+      charVoice:"Kennedy's margin was microscopic  -  less than one vote per precinct nationwide. Had 5,000 votes in Illinois and 28,000 in Texas switched, Nixon would have been president. History sometimes pivots on the thinnest of margins.",
       decision:"What does the razor-thin margin of Kennedy's 1960 victory reveal about the election's significance?",
       choices:[
         {
           text:"It shows Kennedy had no real mandate and would struggle to govern effectively",
           correct:false,
-          feedback:"Close elections don't necessarily prevent effective governance. Lincoln won in 1860 with just 39.8% of the popular vote and became one of the greatest presidents. Kennedy used his narrow victory to build political momentum — his inaugural address, his early executive actions, and his handling of foreign crises all gave him public support that the election margin didn't reflect.",
+          feedback:"Close elections don't necessarily prevent effective governance. Lincoln won in 1860 with just 39.8% of the popular vote and became one of the greatest presidents. Kennedy used his narrow victory to build political momentum  -  his inaugural address, his early executive actions, and his handling of foreign crises all gave him public support that the election margin didn't reflect.",
           std:'SS.912.A.7.4'
         },
         {
-          text:"It reveals how deeply divided America was — cultural, religious, and regional tensions made 1960 a true pivot point",
+          text:"It reveals how deeply divided America was  -  cultural, religious, and regional tensions made 1960 a true pivot point",
           correct:true,
-          feedback:"The closeness of 1960 captures a nation at a crossroads. Regional divisions (the South beginning to shift Republican), religious tensions (Catholic vs. Protestant), Cold War anxieties, and emerging civil rights pressures all fed into an extraordinarily close result. Kennedy's win was both a generational change and a fragile coalition — his presidency would be defined by managing these exact tensions.",
+          feedback:"The closeness of 1960 captures a nation at a crossroads. Regional divisions (the South beginning to shift Republican), religious tensions (Catholic vs. Protestant), Cold War anxieties, and emerging civil rights pressures all fed into an extraordinarily close result. Kennedy's win was both a generational change and a fragile coalition  -  his presidency would be defined by managing these exact tensions.",
           std:'SS.912.A.7.4'
         },
         {
@@ -1539,6 +1539,7 @@ function load(){try{const d=localStorage.getItem(SAVE_KEY);if(d){G=JSON.parse(d)
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
 }
 function setActiveNav(idx){
   document.querySelectorAll('.bn-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
@@ -1958,7 +1959,7 @@ function completeChapter(){
   } else {cardEl.style.display='none';}
   // Kennedy quote on chapter complete
   const quotes=[
-    '"Ask not what your country can do for you — ask what you can do for your country."',
+    '"Ask not what your country can do for you  -  ask what you can do for your country."',
     '"The torch has been passed to a new generation of Americans."',
     '"We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard."',
     '"A man may die, nations may rise and fall, but an idea lives on."',
@@ -1967,6 +1968,7 @@ function completeChapter(){
   document.getElementById('ch-complete-quote').innerHTML=
     quotes[currentChapterIdx%quotes.length]+'<br><span style="font-size:13px;color:var(--amber);font-style:normal">— President John F. Kennedy</span>';
   overlay.classList.add('show');
+  overlay.scrollTop=0;
 }
 function finishChapter(){
   document.getElementById('chapter-complete-overlay').classList.remove('show');
@@ -2218,7 +2220,7 @@ function renderLbContent(all,tab,myTeacher,myPeriod){
       <td><div class="lb-name">${s.name||'?'} ${isYou?'<span style="font-size:8px;color:var(--amber);border:1px solid var(--amber2);padding:1px 4px">YOU</span>':''}</div><div style="font-size:9px;color:var(--teal)">${s.rank||''}</div></td>
       <td class="lb-score">${(s.score||0).toLocaleString()}</td>
       <td style="font-family:var(--dm);font-size:10px;color:var(--text2)">${s.chapters||0}/${CHAPTERS.length}</td>
-      <td style="font-family:var(--dm);font-size:10px;color:var(--amber)">${acc!==null?acc+'%':'—'}</td>
+      <td style="font-family:var(--dm);font-size:10px;color:var(--amber)">${acc!==null?acc+'%':' - '}</td>
     </tr>`;
   }).join('')}
   </tbody></table>`;
@@ -2298,20 +2300,20 @@ function renderTeacherView(all,period){
       <th>#</th><th>STUDENT</th><th>PD</th><th>SCORE</th><th>DONE%</th><th>CORRECT%</th><th>GRADE%</th><th>LAST</th>
     </tr></thead><tbody>
     ${sorted.map((s,i)=>{
-      const lastSeen=s.updatedAt?new Date(s.updatedAt).toLocaleDateString():'—';
+      const lastSeen=s.updatedAt?new Date(s.updatedAt).toLocaleDateString():' - ';
       const chPct=Math.round((s.chapters||0)/CHAPTERS.length*100);
       const acc=s.totalAnswers>0?Math.round((s.correctAnswers||0)/s.totalAnswers*100):null;
-      const grade=acc===null?'—':Math.round(chPct*0.5+acc*0.5)+'%';
+      const grade=acc===null?' - ':Math.round(chPct*0.5+acc*0.5)+'%';
       const gradeVal=acc===null?0:Math.round(chPct*0.5+acc*0.5);
       const gradeColor=acc===null?'var(--text3)':gradeVal>=90?'var(--green2)':gradeVal>=80?'var(--teal)':gradeVal>=70?'var(--amber)':'var(--red2)';
       const progressBar=`<div style="display:inline-block;width:40px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;vertical-align:middle;margin-left:4px"><div style="width:${chPct}%;height:100%;background:var(--amber2);border-radius:2px"></div></div>`;
       return `<tr>
         <td style="font-family:var(--dm);font-size:10px;color:var(--text3)">${i+1}</td>
-        <td><div class="lb-name">${s.name||'—'}</div><div style="font-size:9px;color:var(--teal)">${s.rank||''}</div></td>
+        <td><div class="lb-name">${s.name||' - '}</div><div style="font-size:9px;color:var(--teal)">${s.rank||''}</div></td>
         <td style="font-family:var(--dm);font-size:10px;color:var(--text2)">${s.period==='T'?'Teacher':('Pd '+(s.period||'?').split('-').pop())}</td>
         <td class="lb-score">${(s.score||0).toLocaleString()}</td>
         <td style="font-family:var(--dm);font-size:10px;color:var(--text2)">${chPct}%${progressBar}</td>
-        <td style="font-family:var(--dm);font-size:10px;color:var(--amber)">${acc!==null?acc+'%':'—'}</td>
+        <td style="font-family:var(--dm);font-size:10px;color:var(--amber)">${acc!==null?acc+'%':' - '}</td>
         <td style="font-family:var(--bebas);font-size:14px;color:${gradeColor}">${grade}</td>
         <td style="font-family:var(--dm);font-size:9px;color:var(--text3)">${lastSeen}</td>
         <td><button onclick="deleteStudent('${s.name}','${s.period}')" style="font-family:var(--bebas);font-size:10px;background:transparent;border:1px solid var(--red2);color:var(--red2);padding:3px 8px;cursor:pointer">✕</button></td>
