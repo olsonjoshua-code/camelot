@@ -558,7 +558,7 @@ const SUPA_URL='https://iluvuartxsenbgylogit.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlsdXZ1YXJ0eHNlbmJneWxvZ2l0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM4NjA2OTIsImV4cCI6MjA4OTQzNjY5Mn0.stAmdi5xy7ofDAB4AiRg78Eoky-7FXZEa-Ui1dgwHd0';
 const SUPA_HEADERS={'Content-Type':'application/json','apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY};
 const TEACHERS={
-  'olson':{name:'Mr. Olson', periods:['1','2','3','4','5','6','7'], teacherCode:'OLSON219'},
+  'olson':{name:'Mr. Olson',  periods:['3','5','6'],             teacherCode:'OLSON219'},
 };
 
 let G=null,currentChapterIdx=0,currentBeatIdx=0,chapterScore=0,chapterCorrect=0,chapterTotal=0,answeredCurrent=false,chapterLog=[];
@@ -2045,9 +2045,8 @@ function getShellProfile() {
     const raw = localStorage.getItem(SHELL_KEY);
     if (!raw) return null;
     const p = JSON.parse(raw);
-    // Accept a real named profile — student (setupDone) OR teacher (IS_TEACHER flag)
-    // Teachers bypass setupDone so we check for a name instead
-    if (p && p.name && p.name !== 'Guest') return p;
+    // Only use if it's a real (non-guest) profile with a name
+    if (p && p.name && p.name !== 'Guest' && p.setupDone) return p;
   } catch(e) {}
   return null;
 }
@@ -2058,7 +2057,6 @@ function applyShellProfile(profile) {
   G.name     = profile.name;
   G.period   = profile.period ? ('shell-' + profile.period) : 'shell-0';
   G.teacher  = 'shell';
-  G.isTeacher = profile.isTeacher || false;
   // Map shell avatar ID to closest game avatar — default to activist_m1
   const avatarMap = {
     scholar:  'activist_m1', rebel:   'activist_f1',
@@ -2086,7 +2084,7 @@ function notifyShellComplete() {
 
 function returnToShell() {
   // ── UPDATE THIS URL when the shell is deployed ──
-  window.location.href = 'https://olsonjoshua-code.github.io/american-chronicles/';
+  window.location.href = 'https://olsonjoshua-code.github.io/American-Chronicles-Shell/';
 }
 
 // ═══════════════════════════════════════
@@ -2132,23 +2130,16 @@ function hideLoading(){
     // ── SHELL INTEGRATION: auto-login if shell profile exists ──
     const shellProfile = getShellProfile();
     if (shellProfile) {
-      // Check if this student/teacher already has a saved game for this unit
+      // Check if this student already has a saved game for this unit
       if (load() && G && G.name && G.teacher === 'shell') {
-        // Returning shell user — continue their existing save
+        // Returning shell student — continue their existing save
         showGameUI(); renderHub(); showScreen('hub-screen');
         notify('Welcome back, ' + G.name + '!', 'green');
       } else {
-        // First time in this unit from shell — apply profile
+        // First time in this unit from shell — apply profile, skip login
         applyShellProfile(shellProfile);
-        if (shellProfile.isTeacher) {
-          // Teachers go straight to hub — no char screen needed
-          showGameUI(); renderHub(); showScreen('hub-screen');
-          notify('Welcome, ' + shellProfile.name + '! 📊', 'green');
-        } else {
-          // Students pick their avatar then enter
-          showCharScreen();
-          notify('Welcome, ' + shellProfile.name + '! Profile loaded from hub.', 'green');
-        }
+        showCharScreen();
+        notify('Welcome, ' + shellProfile.name + '! Profile loaded from hub.', 'green');
       }
       return;
     }
