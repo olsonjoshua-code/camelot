@@ -308,6 +308,13 @@ body::after { content: ''; position: fixed; inset: 0;
   <div id="teacher-btn-wrap" style="display:none;margin-bottom:12px">
     <button class="btn full blue" onclick="loadTeacherData();document.getElementById('teacher-dashboard').classList.add('show')"><span>📊 Teacher Dashboard</span></button>
   </div>
+  <!-- SHELL INTEGRATION: Return to hub button — only shown when launched from shell -->
+  <div id="shell-return-btn" style="display:none;margin-bottom:12px">
+    <button class="btn full" onclick="returnToShell()"
+      style="border-color:var(--teal);color:var(--teal);">
+      <span>← Return to American Chronicles Hub</span>
+    </button>
+  </div>
   <div class="section-head" style="font-size:14px">Camelot  -  Chapter Select</div>
   <div id="unit-list"></div>
   <div id="journey-banner" style="display:none;background:rgba(232,160,32,0.06);border:1px solid var(--amber2);padding:14px;text-align:center;margin-bottom:12px">
@@ -406,6 +413,8 @@ body::after { content: ''; position: fixed; inset: 0;
       <button class="btn full green" onclick="printCertificate()"><span>🖨️ Print Certificate</span></button>
       <button class="btn full" onclick="playAgain()"><span>↺ Begin New Journey</span></button>
       <button class="btn full" style="border-color:var(--border2);color:var(--text2)" onclick="document.getElementById('completion-overlay').style.display='none';renderHub();showScreen('hub-screen')"><span>Return to Hub</span></button>
+      <!-- SHELL INTEGRATION: return to shell after completion -->
+      <button class="btn full" id="completion-shell-btn" style="display:none;border-color:var(--teal);color:var(--teal);" onclick="returnToShell()"><span>🏛️ Return to American Chronicles</span></button>
     </div>
   </div>
 </div>
@@ -539,6 +548,8 @@ body::after { content: ''; position: fixed; inset: 0;
   <button class="bn-btn" onclick="openProfile()"><span class="bn-icon">🌙</span>Profile</button>
   <button class="bn-btn" onclick="openShop()"><span class="bn-icon">🛒</span>Shop</button>
   <button class="bn-btn" onclick="openCardCollection()"><span class="bn-icon">🃏</span>Cards</button>
+  <!-- SHELL INTEGRATION: shown only when launched from shell -->
+  <button class="bn-btn" id="shell-nav-btn" style="display:none;color:var(--teal);" onclick="returnToShell()"><span class="bn-icon">🏛️</span>Hub</button>
 </div>
 
 </div><!-- /#root -->
@@ -2023,6 +2034,63 @@ function save(){try{localStorage.setItem(SAVE_KEY,JSON.stringify(G));}catch(e){}
 function saveGame(){save();notify('Progress saved! 💾','green');}
 function load(){try{const d=localStorage.getItem(SAVE_KEY);if(d){G=JSON.parse(d);return true;}}catch(e){}return false;}
 
+// ═══════════════════════════════════════════════════════════════════════
+//  AMERICAN CHRONICLES SHELL INTEGRATION
+//  Reads the shared profile written by the shell on the same domain.
+//  If a shell profile exists, the student skips login entirely —
+//  their name, avatar, and period carry over automatically.
+//  On completion, this game writes back so the shell knows it's done.
+// ═══════════════════════════════════════════════════════════════════════
+const SHELL_KEY = 'ac_shell_state';  // must match shell's localStorage key
+const SHELL_UNIT_ID = 'unit7a';      // this game's ID in the shell's UNIT_DATA
+
+function getShellProfile() {
+  try {
+    const raw = localStorage.getItem(SHELL_KEY);
+    if (!raw) return null;
+    const p = JSON.parse(raw);
+    // Only use if it's a real (non-guest) profile with a name
+    if (p && p.name && p.name !== 'Guest' && p.setupDone) return p;
+  } catch(e) {}
+  return null;
+}
+
+function applyShellProfile(profile) {
+  // Build a game state from the shell profile — skip character creation
+  G = newGame();
+  G.name     = profile.name;
+  G.period   = profile.period ? ('shell-' + profile.period) : 'shell-0';
+  G.teacher  = 'shell';
+  // Map shell avatar ID to closest game avatar — default to activist_m1
+  const avatarMap = {
+    scholar:  'activist_m1', rebel:   'activist_f1',
+    soldier:  'activist_m2', reporter:'activist_f2',
+    pioneer:  'activist_m1', diplomat:'activist_m2',
+    worker:   'activist_m1', artist:  'activist_f1',
+  };
+  G.avatarId = avatarMap[profile.avatar] || 'activist_m1';
+  save();
+}
+
+function notifyShellComplete() {
+  // Write completed unit back to shell state so shell progress updates
+  try {
+    const raw = localStorage.getItem(SHELL_KEY);
+    if (!raw) return;
+    const shellState = JSON.parse(raw);
+    if (!shellState.unitsCompleted) shellState.unitsCompleted = [];
+    if (!shellState.unitsCompleted.includes(SHELL_UNIT_ID)) {
+      shellState.unitsCompleted.push(SHELL_UNIT_ID);
+    }
+    localStorage.setItem(SHELL_KEY, JSON.stringify(shellState));
+  } catch(e) {}
+}
+
+function returnToShell() {
+  // ── UPDATE THIS URL when the shell is deployed ──
+  window.location.href = 'https://olsonjoshua-code.github.io/american-chronicles/';
+}
+
 // ═══════════════════════════════════════
 // NAVIGATION
 // ═══════════════════════════════════════
@@ -2062,6 +2130,24 @@ function hideLoading(){
   ls.style.transition='opacity 0.4s';ls.style.opacity='0';
   setTimeout(()=>{
     ls.style.display='none';
+
+    // ── SHELL INTEGRATION: auto-login if shell profile exists ──
+    const shellProfile = getShellProfile();
+    if (shellProfile) {
+      // Check if this student already has a saved game for this unit
+      if (load() && G && G.name && G.teacher === 'shell') {
+        // Returning shell student — continue their existing save
+        showGameUI(); renderHub(); showScreen('hub-screen');
+        notify('Welcome back, ' + G.name + '!', 'green');
+      } else {
+        // First time in this unit from shell — apply profile, skip login
+        applyShellProfile(shellProfile);
+        showCharScreen();
+        notify('Welcome, ' + shellProfile.name + '! Profile loaded from hub.', 'green');
+      }
+      return;
+    }
+    // ── No shell profile — normal standalone login flow ──
     try{if(load()&&G&&G.name)document.getElementById('btn-continue').style.display='block';}catch(e){}
   },420);
 }
@@ -2231,6 +2317,13 @@ function confirmCharacter(){
 function showGameUI(){
   document.getElementById('game-header').style.display='block';
   document.getElementById('bottom-nav').style.display='grid';
+  // ── SHELL INTEGRATION: reveal return buttons if launched from shell ──
+  if (getShellProfile()) {
+    const retBtn = document.getElementById('shell-return-btn');
+    if (retBtn) retBtn.style.display = 'block';
+    const navBtn = document.getElementById('shell-nav-btn');
+    if (navBtn) navBtn.style.display = 'block';
+  }
   updateHUD();
 }
 function updateHUD(){
@@ -2491,6 +2584,8 @@ function checkAchievements(){
 function checkUnitComplete(){
   if(G.completedChapters.length>=CHAPTERS.length&&!G._completionShown){
     G._completionShown=true;save();
+    // ── SHELL INTEGRATION: write completion back to shell profile ──
+    notifyShellComplete();
     setTimeout(showCompletionScreen,800);
   }
 }
@@ -2518,6 +2613,9 @@ function showCompletionScreen(){
     'You have completed the journey. The Kennedy era was complex - every replay will teach you more.';
   document.getElementById('completion-message').textContent=msg;
   document.getElementById('completion-overlay').style.display='block';
+  // ── SHELL INTEGRATION: show return-to-shell button if launched from shell ──
+  const shellBtn = document.getElementById('completion-shell-btn');
+  if (shellBtn && getShellProfile()) shellBtn.style.display = 'block';
   window.scrollTo(0,0);
 }
 function printCertificate(){
