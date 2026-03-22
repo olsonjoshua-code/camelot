@@ -154,7 +154,6 @@ body::after{content:"";position:fixed;inset:0;
 .hist-card-name{font-family:var(--playfair);font-size:13px;color:var(--cream);font-style:italic;margin-bottom:3px;}
 .hist-card-desc{font-family:var(--crimson);font-size:12px;color:var(--text2);line-height:1.4;}
 #bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(13,10,8,0.97);border-top:1px solid var(--border2);display:none;z-index:300;backdrop-filter:blur(12px);}
-.bn-inner{display:flex;}
 .bn-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:8px 4px;background:none;border:none;color:var(--text3);cursor:pointer;font-family:var(--dm);font-size:8px;letter-spacing:0.5px;transition:color 0.15s;}
 .bn-btn:hover,.bn-btn.active{color:var(--amber);}
 .bn-icon{font-size:18px;display:block;}
@@ -421,15 +420,11 @@ input,textarea{-webkit-user-select:text!important;-moz-user-select:text!importan
 
 </div><!-- /#root -->
 
-<div id="bottom-nav">
-  <div class="bn-inner">
-    <button class="bn-btn active" id="bn-hub" onclick="hubOrShell()"><span class="bn-icon">&#127968;</span>Hub</button>
-    <button class="bn-btn" onclick="openLeaderboard()"><span class="bn-icon">&#127942;</span>Ranks</button>
-    <button class="bn-btn" onclick="openProfile()"><span class="bn-icon">&#127769;</span>Profile</button>
-    <button class="bn-btn" onclick="openCardCollection()"><span class="bn-icon">&#127921;</span>Cards</button>
-    <button class="bn-btn" id="shell-nav-btn" style="display:none;color:var(--teal2);" onclick="returnToShell()"><span class="bn-icon">&#127963;</span>Hub</button>
-  </div>
-</div>
+<div id="bottom-nav" style="display:none">
+  <button class="bn-btn active" id="bn-hub" onclick="showScreen('hub-screen');setActiveNav(0)"><span class="bn-icon">&#127968;</span>Hub</button>
+  <button class="bn-btn" onclick="openLeaderboard()"><span class="bn-icon">&#127942;</span>Ranks</button>
+  <button class="bn-btn" onclick="openProfile()"><span class="bn-icon">&#127897;</span>Profile</button>
+  <button class="bn-btn" onclick="openCardCollection()"><span class="bn-icon">&#127921;</span>Cards</button>
 <div id="print-area" style="display:none"></div>
 <script>
 'use strict';
@@ -1239,6 +1234,7 @@ function initNewGame(name,teacher,period){
 }
 
 // ── NAVIGATION ───────────────────────────────────────────────────────────
+function setActiveNav(idx){document.querySelectorAll('.bn-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));const el=document.getElementById(id);if(el)el.classList.add('active');window.scrollTo(0,0);}
 function notify(msg,type){document.querySelectorAll('.notif').forEach(n=>n.remove());const el=document.createElement('div');el.className='notif'+(type?' '+type:'');el.textContent=msg;document.body.appendChild(el);setTimeout(()=>el.remove(),3500);}
 
@@ -1298,11 +1294,10 @@ function continueGame(){const saved=loadGame();if(saved&&saved.name){G=saved;aft
 
 function afterLogin(){
   document.getElementById('game-header').style.display='block';
-  document.getElementById('bottom-nav').style.display='block';
+  document.getElementById('bottom-nav').style.display='flex';
   const sp=getShellProfile();
   if(sp||(G&&G.shellLinked)){
     const rb=document.getElementById('shell-return-btn');if(rb)rb.style.display='block';
-    const nb=document.getElementById('shell-nav-btn');if(nb)nb.style.display='block';
   }
   renderHub();showScreen('hub-screen');updateHUD();
   const saved=loadGame();if(!saved||!saved.name)document.getElementById('btn-continue').style.display='none';
