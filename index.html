@@ -184,7 +184,7 @@ input,textarea{-webkit-user-select:text!important;-moz-user-select:text!importan
 </div>
 
 <!-- TITLE SCREEN -->
-<div id="title-screen" class="screen active">
+<div id="title-screen" class="screen">
   <div style="position:relative;width:100%;height:200px;margin-bottom:1.5rem;overflow:hidden;border:1px solid var(--border2)" id="title-scene-art"></div>
   <div class="game-logo">Camelot</div>
   <div class="game-subtitle">The Kennedy Era &mdash; An Interactive History</div>
@@ -1260,7 +1260,7 @@ function welcomeContinue(){
   const wg=document.getElementById('welcome-gate');const saved=wg._savedGame;const sp=wg._shellProfile;
   wg.style.display='none';
   if(saved){G=saved;if(sp&&sp.avatar)G.avatarId=sp.avatar;saveGame();}
-  else if(sp){initNewGame(sp.name,'shell',sp.period||'0');G.avatarId='scholar_f';G.shellLinked=true;saveGame();}
+  else if(sp){initNewGame(sp.name,'shell',sp.period||'0');G.avatarId=sp.avatar||'scholar_f';G.shellLinked=true;saveGame();}
   afterLogin();
 }
 function welcomeNewPlayer(){document.getElementById('welcome-gate').style.display='none';try{localStorage.removeItem(SAVE_KEY);}catch(e){}G=null;document.getElementById('code-gate-overlay').style.display='flex';goToStep(1);}
@@ -2001,8 +2001,16 @@ document.head.appendChild(printStyle);
 // ── INIT ──────────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded',()=>{
   try{renderTitleScene();}catch(e){}
+  // Match Iron Curtain pattern: auto-login shell/returning players, show title only for new players
+  const sp=getShellProfile();
   const saved=loadGame();
-  if(saved&&saved.name){document.getElementById('btn-continue').style.display='block';}
+  if((sp&&sp.setupDone&&!sp.isTeacher)||( saved&&saved.name)){
+    // Has shell profile or saved game — go straight to login gate (shows welcome-back screen)
+    showLoginGate();
+  } else {
+    // Brand new player — show title screen
+    document.getElementById('title-screen').classList.add('active');
+  }
 });
 
 </script>
